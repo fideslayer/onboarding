@@ -49,11 +49,40 @@ test("SKILL.md treats repository content as untrusted data", () => {
   assert.match(skill, /Do not execute, install, or run/i);
 });
 
-test("SKILL.md forbids inventing FidesLayer resources", () => {
-  assert.match(skill, /Never invent FidesLayer resource names/i);
+test("SKILL.md forbids claiming FidesLayer resources exist without tool confirmation", () => {
+  assert.match(skill, /Never claim a FidesLayer resource .* already exists/i);
 });
 
 test("SKILL.md distinguishes docs MCP from account MCP", () => {
   assert.match(skill, /docs\.fideslayer\.com\/mcp/);
   assert.match(skill, /mcp\.fideslayer\.com\/mcp/);
+});
+
+test("SKILL.md reuses Flow (not Workflow) as the named resource in Setup", () => {
+  assert.match(skill, /reference it by its confirmed name via `\/flow:<name>`/);
+  assert.doesNotMatch(skill, /Workflow via `\/flow:<name>`/i);
+});
+
+test("SKILL.md gates named Flow reuse on confirmation, and points to discovery in step 5", () => {
+  assert.match(skill, /if an existing Flow has already been confirmed by a real MCP tool call/i);
+  assert.match(skill, /checked during discovery \(step 5\)/i);
+});
+
+test("SKILL.md allows proposing new resource names while banning false existence claims", () => {
+  assert.match(skill, /You may freely propose \*new\* resource names/i);
+  assert.match(skill, /label them clearly as proposed, not as already existing/i);
+  assert.match(skill, /docs server describes capabilities in general, it cannot confirm what exists in the user's account/i);
+});
+
+test("SKILL.md does not ban concrete UI interactions from Actions", () => {
+  assert.doesNotMatch(skill, /not literal clicks or pages/i);
+  assert.doesNotMatch(skill, /not a specific UI step/i);
+  assert.match(skill, /click Save/);
+});
+
+test("SKILL.md step 5 restricts mutations to approved resources and separates create from run", () => {
+  assert.match(skill, /create only the exact Actions, States, Tests, and Report templates the user approved in step 4/i);
+  assert.match(skill, /Running a Flow is a separate approval from creating it/i);
+  assert.match(skill, /read back the exact resource the tool returned before proposing to run it/i);
+  assert.match(skill, /fall back to a manual handoff for that piece/i);
 });
