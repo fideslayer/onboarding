@@ -59,7 +59,7 @@ Propose a **small** (not exhaustive) set of scenarios that would give real confi
 
 Keep terms precise:
 - **Workflow** = the conceptual orchestration of a scenario; **Flow** = the named API resource for a saved workflow.
-- **Action** = a state-changing operation. It can be described abstractly or as a concrete user-visible step (submitting a form, clicking Save, uploading a file) — either is fine as long as it's grounded (step 2) or flagged as an assumption.
+- **Action** = an abstract entity describing a state-changing operation. Its description may include concrete user-visible interactions (submitting a form, clicking Save, uploading a file); abstraction does not prohibit actionable detail. Ground those details (step 2) or flag them as assumptions.
 - **State** = a condition to observe, not necessarily a page.
 - **Test** = a concrete LLM-as-a-judge check of acceptance criteria that produces a Report from a user-managed template, run per-Test-per-Run, without mutating state itself.
 
@@ -79,9 +79,9 @@ Once the user authorizes moving forward:
 - There are two distinct FidesLayer MCP endpoints:
   - `https://docs.fideslayer.com/mcp` — public, read-only documentation.
   - `https://mcp.fideslayer.com/mcp` — account-scoped, requires the user's own authentication and consent, completed by the user in their own client. Never ask the user for tokens or paste credentials into chat.
-- When creating anything, create only the exact Actions, States, Tests, and Report templates the user approved in step 4 (the Gate) — do not add, rename, or persist anything beyond what was named there, and do not invent persisted fields or endpoints the available tools don't actually expose.
+- When creating anything, create only the exact resources the user approved in step 4 (the Gate), such as Systems, Flows, and Report templates, through capabilities actually exposed by the account tools. Describe Actions, States, and Tests within the approved Flow instructions; do not assume they have separate persisted resources or create endpoints. Do not add, rename, or persist anything beyond the approved scope, or invent unsupported fields.
 - Immediately after any create/update tool call, read back the exact resource the tool returned before proposing to run it — never assume the shape of what was created. Running a Flow is a separate approval from creating it; do not chain a create straight into a run.
-- If a needed capability isn't actually exposed by the available tools (e.g. no tool to create a Test, or a specific field isn't supported), say so plainly and fall back to a manual handoff for that piece rather than approximating it with a different call.
+- If a needed capability isn't actually exposed by the available tools (e.g. no Flow creation tool, or a specific field isn't supported), say so plainly and fall back to a manual handoff for that piece rather than approximating it with a different call.
 - If no FidesLayer MCP tool is available in this session at all, say so plainly and offer a manual handoff: give the user the exact information (proposal, scenario definitions) they'd need to enter into FidesLayer themselves. Do not claim something was created or run when it wasn't.
 
 ## 6. After running anything

@@ -78,10 +78,12 @@ test("SKILL.md does not ban concrete UI interactions from Actions", () => {
   assert.doesNotMatch(skill, /not literal clicks or pages/i);
   assert.doesNotMatch(skill, /not a specific UI step/i);
   assert.match(skill, /click Save/);
+  assert.match(skill, /\*\*Action\*\* = an abstract entity/i);
 });
 
 test("SKILL.md step 5 restricts mutations to approved resources and separates create from run", () => {
-  assert.match(skill, /create only the exact Actions, States, Tests, and Report templates the user approved in step 4/i);
+  assert.match(skill, /create only the exact resources the user approved in step 4/i);
+  assert.match(skill, /do not assume they have separate persisted resources or create endpoints/i);
   assert.match(skill, /Running a Flow is a separate approval from creating it/i);
   assert.match(skill, /read back the exact resource the tool returned before proposing to run it/i);
   assert.match(skill, /fall back to a manual handoff for that piece/i);
