@@ -1,0 +1,11 @@
+{
+  "name": "fideslayer-onboarding",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Public agent-readable onboarding skill for FidesLayer",
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test"
+  }
+}
